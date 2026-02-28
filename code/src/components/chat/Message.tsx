@@ -3,8 +3,7 @@ import { formatTime } from '../../utils/dateFormatter';
 import { User, Bot, Copy, RefreshCw } from 'lucide-react';
 import { IconButton } from '../ui/IconButton';
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { CodeBlock } from './CodeBlock';
 import { useState } from 'react';
 
 interface MessageProps {
@@ -63,32 +62,7 @@ export function Message({ message, onRegenerate }: MessageProps) {
                   const codeString = String(children).replace(/\n$/, '');
 
                   return !inline && match ? (
-                    <div className="relative group my-4">
-                      <div className="flex items-center justify-between bg-gray-900 rounded-t-lg px-4 py-2">
-                        <span className="text-xs text-gray-400">{match[1]}</span>
-                        <button
-                          onClick={() => navigator.clipboard.writeText(codeString)}
-                          className="text-xs text-gray-400 hover:text-white transition-colors"
-                          aria-label={`Copy ${match[1]} code`}
-                        >
-                          Copy code
-                        </button>
-                      </div>
-                      <SyntaxHighlighter
-                        style={oneDark}
-                        language={match[1]}
-                        PreTag="div"
-                        customStyle={{
-                          margin: 0,
-                          borderTopLeftRadius: 0,
-                          borderTopRightRadius: 0,
-                          fontSize: '0.875rem'
-                        }}
-                        {...props}
-                      >
-                        {codeString}
-                      </SyntaxHighlighter>
-                    </div>
+                    <CodeBlock language={match[1]} code={codeString} />
                   ) : (
                     <code className="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm" {...props}>
                       {children}

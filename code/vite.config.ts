@@ -12,7 +12,7 @@ export default defineConfig({
           // Split vendor code for better caching
           'react-vendor': ['react', 'react-dom'],
           'markdown-vendor': ['react-markdown'],
-          'syntax-highlighter': ['react-syntax-highlighter'],
+          'prism-vendor': ['prismjs'],
         },
       },
     },
