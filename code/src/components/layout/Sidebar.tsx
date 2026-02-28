@@ -36,11 +36,14 @@ export function Sidebar() {
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
         />
       )}
 
       {/* Sidebar */}
       <aside
+        role="complementary"
+        aria-label="Conversation list and settings"
         className={`fixed md:relative top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 transform transition-transform duration-300 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
@@ -63,6 +66,7 @@ export function Sidebar() {
               variant="primary"
               className="w-full flex items-center justify-center gap-2"
               onClick={handleNewChat}
+              aria-label="Create new chat conversation"
             >
               <Plus size={18} />
               New Chat
@@ -70,9 +74,12 @@ export function Sidebar() {
           </div>
 
           {/* Conversations List */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-1">
+          <nav 
+            className="flex-1 overflow-y-auto p-3 space-y-1"
+            aria-label="Conversation history"
+          >
             {conversations.length === 0 ? (
-              <div className="text-center py-8 px-4">
+              <div className="text-center py-8 px-4" role="status">
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   No conversations yet
                 </p>
@@ -81,24 +88,27 @@ export function Sidebar() {
                 </p>
               </div>
             ) : (
-              conversations.map(conversation => (
-                <ConversationItem
-                  key={conversation.id}
-                  conversation={conversation}
-                  isActive={conversation.id === activeConversationId}
-                  onClick={() => {
-                    setActiveConversation(conversation.id);
-                    // Close sidebar on mobile after selecting conversation
-                    if (window.innerWidth < 768) {
-                      setSidebarOpen(false);
-                    }
-                  }}
-                  onDelete={() => deleteConversation(conversation.id)}
-                  onRename={(newTitle) => updateConversationTitle(conversation.id, newTitle)}
-                />
-              ))
+              <ul role="list">
+                {conversations.map(conversation => (
+                  <li key={conversation.id}>
+                    <ConversationItem
+                      conversation={conversation}
+                      isActive={conversation.id === activeConversationId}
+                      onClick={() => {
+                        setActiveConversation(conversation.id);
+                        // Close sidebar on mobile after selecting conversation
+                        if (window.innerWidth < 768) {
+                          setSidebarOpen(false);
+                        }
+                      }}
+                      onDelete={() => deleteConversation(conversation.id)}
+                      onRename={(newTitle) => updateConversationTitle(conversation.id, newTitle)}
+                    />
+                  </li>
+                ))}
+              </ul>
             )}
-          </div>
+          </nav>
 
           {/* Footer */}
           <div className="p-4 border-t border-gray-200 dark:border-gray-700">
@@ -108,7 +118,7 @@ export function Sidebar() {
               </span>
               <IconButton
                 icon={theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                label="Toggle theme"
+                label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                 onClick={toggleTheme}
                 className="text-gray-600 dark:text-gray-400"
               />

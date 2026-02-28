@@ -11,9 +11,21 @@ export function ChatArea() {
   const { setSidebarOpen } = useUI();
 
   return (
-    <div className="flex-1 flex flex-col h-screen bg-white dark:bg-gray-900">
+    <main 
+      role="main" 
+      aria-label="Chat conversation area"
+      className="flex-1 flex flex-col h-screen bg-white dark:bg-gray-900"
+    >
+      {/* Skip to content link for screen readers */}
+      <a 
+        href="#chat-input" 
+        className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-blue-600 focus:text-white"
+      >
+        Skip to message input
+      </a>
+
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      <header className="md:hidden flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <IconButton
           icon={<Menu size={24} />}
           label="Open sidebar"
@@ -22,7 +34,7 @@ export function ChatArea() {
         <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
           ChatGPT Clone
         </h1>
-      </div>
+      </header>
 
       {/* Messages */}
       <MessageList messages={activeConversation?.messages || []} />
@@ -34,6 +46,6 @@ export function ChatArea() {
 
       {/* Input */}
       <InputBar />
-    </div>
+    </main>
   );
 }

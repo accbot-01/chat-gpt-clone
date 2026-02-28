@@ -23,13 +23,20 @@ export function Message({ message, onRegenerate }: MessageProps) {
   };
 
   return (
-    <div className={`flex gap-4 p-6 ${isUser ? 'bg-transparent' : 'bg-gray-50 dark:bg-gray-800/50'}`}>
+    <article 
+      role="article"
+      aria-label={`Message from ${isUser ? 'You' : 'ChatGPT'}`}
+      className={`flex gap-4 p-6 ${isUser ? 'bg-transparent' : 'bg-gray-50 dark:bg-gray-800/50'}`}
+    >
       {/* Avatar */}
-      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-        isUser 
-          ? 'bg-blue-600 text-white' 
-          : 'bg-green-600 text-white'
-      }`}>
+      <div 
+        aria-hidden="true"
+        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+          isUser 
+            ? 'bg-blue-600 text-white' 
+            : 'bg-green-600 text-white'
+        }`}
+      >
         {isUser ? <User size={20} /> : <Bot size={20} />}
       </div>
 
@@ -39,9 +46,9 @@ export function Message({ message, onRegenerate }: MessageProps) {
           <span className="font-semibold text-sm text-gray-900 dark:text-gray-100">
             {isUser ? 'You' : 'ChatGPT'}
           </span>
-          <span className="text-xs text-gray-500 dark:text-gray-400">
+          <time className="text-xs text-gray-500 dark:text-gray-400" dateTime={new Date(message.timestamp).toISOString()}>
             {formatTime(message.timestamp)}
-          </span>
+          </time>
         </div>
 
         {/* Message content */}
@@ -62,6 +69,7 @@ export function Message({ message, onRegenerate }: MessageProps) {
                         <button
                           onClick={() => navigator.clipboard.writeText(codeString)}
                           className="text-xs text-gray-400 hover:text-white transition-colors"
+                          aria-label={`Copy ${match[1]} code`}
                         >
                           Copy code
                         </button>
@@ -94,13 +102,16 @@ export function Message({ message, onRegenerate }: MessageProps) {
           )}
 
           {message.isStreaming && (
-            <span className="inline-block w-1.5 h-4 ml-1 bg-gray-900 dark:bg-gray-100 animate-pulse" />
+            <span 
+              className="inline-block w-1.5 h-4 ml-1 bg-gray-900 dark:bg-gray-100 animate-pulse"
+              aria-label="Typing"
+            />
           )}
         </div>
 
         {/* Actions - only show for completed assistant messages */}
         {!isUser && !message.isStreaming && (
-          <div className="flex items-center gap-2 mt-3">
+          <div className="flex items-center gap-2 mt-3" role="group" aria-label="Message actions">
             <IconButton
               icon={<Copy size={16} />}
               label="Copy message"
@@ -118,11 +129,13 @@ export function Message({ message, onRegenerate }: MessageProps) {
               />
             )}
             {copied && (
-              <span className="text-xs text-green-600 dark:text-green-400">Copied!</span>
+              <span className="text-xs text-green-600 dark:text-green-400" role="status" aria-live="polite">
+                Copied!
+              </span>
             )}
           </div>
         )}
       </div>
-    </div>
+    </article>
   );
 }

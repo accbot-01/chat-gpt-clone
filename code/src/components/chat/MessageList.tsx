@@ -34,6 +34,9 @@ export function MessageList({ messages }: MessageListProps) {
   return (
     <div 
       ref={scrollRef}
+      role="log"
+      aria-live="polite"
+      aria-label="Chat messages"
       className="flex-1 overflow-y-auto"
     >
       <div className="max-w-3xl mx-auto">
