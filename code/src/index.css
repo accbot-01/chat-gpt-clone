@@ -1,6 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Tailwind v4 Theme Configuration */
+@theme {
+  /* Custom Colors */
+  --color-chat-bg: #F7F7F8;
+  --color-user-msg: #F4F4F4;
+  --color-assistant-msg: #FFFFFF;
+  --color-sidebar-bg: #FFFFFF;
+  --color-text-primary: #0D0D0D;
+  --color-text-secondary: #6E6E80;
+  --color-accent: #10A37F;
+  --color-border: #E5E5E5;
+}
 
 @layer base {
   html {
