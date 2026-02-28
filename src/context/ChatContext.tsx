@@ -42,9 +42,20 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   }, [conversations, activeConversationId, setConversations, setActiveConversationId]);
 
   const sendMessage = useCallback(async (content: string) => {
-    if (!activeConversationId) {
-      createConversation();
-      return;
+    let conversationId = activeConversationId;
+
+    // If no active conversation, create one first
+    if (!conversationId) {
+      const newConversation: Conversation = {
+        id: generateId(),
+        title: 'New Chat',
+        messages: [],
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      };
+      conversationId = newConversation.id;
+      setConversations([newConversation, ...conversations]);
+      setActiveConversationId(conversationId);
     }
 
     const userMessage: Message = {
@@ -57,7 +68,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     // Add user message
     setConversations(prevConversations =>
       prevConversations.map(conv =>
-        conv.id === activeConversationId
+        conv.id === conversationId
           ? {
               ...conv,
               messages: [...conv.messages, userMessage],
@@ -80,7 +91,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
     setConversations(prevConversations =>
       prevConversations.map(conv =>
-        conv.id === activeConversationId
+        conv.id === conversationId
           ? {
               ...conv,
               messages: [...conv.messages, assistantMessage],
@@ -96,7 +107,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       (chunk) => {
         setConversations(prevConversations =>
           prevConversations.map(conv =>
-            conv.id === activeConversationId
+            conv.id === conversationId
               ? {
                   ...conv,
                   messages: conv.messages.map(msg =>
@@ -112,7 +123,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       (fullMessage) => {
         setConversations(prevConversations =>
           prevConversations.map(conv =>
-            conv.id === activeConversationId
+            conv.id === conversationId
               ? {
                   ...conv,
                   messages: conv.messages.map(msg =>
@@ -126,7 +137,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         );
       }
     );
-  }, [activeConversationId, conversations, createConversation, setConversations, streamMessage]);
+  }, [activeConversationId, conversations, setConversations, setActiveConversationId, streamMessage]);
 
   const value: ChatContextType = {
     conversations,

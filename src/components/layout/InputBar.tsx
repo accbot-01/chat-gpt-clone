@@ -32,7 +32,7 @@ export function InputBar() {
           {!sidebarOpen && (
             <button
               onClick={toggleSidebar}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 mb-1"
+              className="p-2 rounded-lg hover:bg-gray-100 mb-1"
               aria-label="Open sidebar"
             >
               <svg

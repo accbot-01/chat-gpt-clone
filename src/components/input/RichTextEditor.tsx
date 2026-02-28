@@ -23,6 +23,20 @@ export function RichTextEditor({
       if (value.trim() && !disabled) {
         onSend();
       }
+    } else if (e.key === 'Enter' && e.shiftKey) {
+      // Explicitly insert newline and preserve cursor position
+      e.preventDefault();
+      const textarea = textareaRef.current;
+      if (textarea) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const newValue = value.substring(0, start) + '\n' + value.substring(end);
+        onChange(newValue);
+        // Set cursor position after newline
+        setTimeout(() => {
+          textarea.selectionStart = textarea.selectionEnd = start + 1;
+        }, 0);
+      }
     }
   };
 

@@ -7,20 +7,25 @@ export function Sidebar() {
   const { conversations, activeConversationId, createConversation, deleteConversation, setActiveConversation } = useChatContext();
   const { sidebarOpen, toggleSidebar } = useUIContext();
 
-  if (!sidebarOpen) {
-    return null;
-  }
-
   return (
     <>
-      {/* Mobile overlay */}
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
-        onClick={toggleSidebar}
-      />
+      {/* Mobile overlay - only show when sidebar is open */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
       
-      {/* Sidebar */}
-      <aside className="fixed md:relative inset-y-0 left-0 z-30 w-80 bg-white border-r border-gray-200 flex flex-col">
+      {/* Sidebar - always rendered, controlled by CSS transforms */}
+      <aside 
+        className={`
+          fixed md:relative inset-y-0 left-0 z-30 w-80 
+          bg-white border-r border-gray-200 flex flex-col
+          transition-transform duration-300
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        `}
+      >
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
