@@ -7,14 +7,11 @@ import { SendButton } from '../input/SendButton';
 
 export function InputBar() {
   const [message, setMessage] = useState('');
-  const { sendMessage, isStreaming, activeConversationId, createConversation } = useChatContext();
+  const { sendMessage, isStreaming, activeConversationId } = useChatContext();
   const { sidebarOpen, toggleSidebar } = useUIContext();
 
   const handleSend = () => {
     if (message.trim() && !isStreaming) {
-      if (!activeConversationId) {
-        createConversation();
-      }
       sendMessage(message.trim());
       setMessage('');
     }
