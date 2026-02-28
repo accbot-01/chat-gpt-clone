@@ -1,0 +1,25 @@
+{
+  "id": "proj-1772262946",
+  "name": "ChatGPT-like Frontend",
+  "stage": "DEV_WORKING",
+  "created": 1772262946.724017,
+  "path": "/Users/accuser/.openclaw/workspace/projects/proj-1772262946",
+  "description": "ChatGPT-like interface - frontend only, static web page with placeholder images",
+  "approvals": [
+    {
+      "stage": "PM_REVIEW",
+      "approved_at": 1772265099.6542,
+      "feedback": "Approved - looks good, proceed further"
+    },
+    {
+      "stage": "ARCHITECT_REVIEW",
+      "approved_at": 1772267644.504152,
+      "feedback": "Architecture complete - moving to development"
+    }
+  ],
+  "test_rounds": 0,
+  "last_bug_count": 0,
+  "modules_passed": [],
+  "modules_remaining": [],
+  "changes_requested": []
+}
